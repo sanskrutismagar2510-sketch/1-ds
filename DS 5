@@ -1,0 +1,133 @@
+#include <iostream>
+
+using namespace std;
+
+class HashTable {
+
+ static const int size = 10;
+
+ int table[size];
+
+public:
+
+ HashTable() {
+
+ for (int i = 0; i < size; i++)
+
+ table[i] = -1; // -1 means empty
+
+ }
+
+ int hashFunction(int key) {
+
+ return key % size;
+
+ }
+
+ void insert(int key) {
+
+ int index = hashFunction(key);
+
+ int start = index;
+
+ while (table[index] != -1) {
+
+ index = (index + 1) % size;
+
+ if (index == start) {
+
+ cout << "Table full\n";
+
+ return;
+
+ }
+
+ }
+
+ table[index] = key;
+
+ }
+
+ void search(int key) {
+
+ int index = hashFunction(key);
+
+ int start = index;
+
+ while (table[index] != -1) {
+
+ if (table[index] == key) {
+
+ cout << "Key found at index " << index << endl;
+
+ return;
+
+ }
+
+ index = (index + 1) % size;
+
+ if (index == start) break;
+
+ }
+
+ cout << "Key not found\n";
+
+ }
+
+ void remove(int key) {
+
+ int index = hashFunction(key);
+
+ int start = index;
+
+ while (table[index] != -1) {
+
+ if (table[index] == key) {
+
+ table[index] = -1;
+
+ cout << "Key deleted\n";
+
+ return;
+
+ }
+
+ index = (index + 1) % size;
+
+ if (index == start) break;
+
+ }
+
+ cout << "Key not found\n";
+
+ }
+
+ void display() {
+
+ for (int i = 0; i < size; i++)
+
+ cout << i << " -> " << table[i] << endl;
+
+ }
+
+};
+
+int main() {
+
+ HashTable ht;
+
+ ht.insert(20);
+
+ ht.insert(25);
+
+ ht.insert(30);
+
+ ht.display();
+
+ ht.search(25);
+
+ ht.remove(25);
+
+ ht.display();
+return 0;
+}
