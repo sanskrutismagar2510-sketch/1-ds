@@ -1,0 +1,95 @@
+#include <iostream>
+
+#include <queue>
+
+using namespace std;
+
+struct Call {
+
+int customerID;
+
+int callTime;
+
+};
+
+queue<Call> callQueue;
+
+void addCall(int customerID, int callTime) {
+
+callQueue.push({customerID, callTime});
+
+cout << "Call added: Customer " << customerID << ", Time " << callTime << " mins\n";
+
+}
+
+void answerCall() {
+
+if (callQueue.empty()) {
+
+cout << "No calls to answer.\n";
+
+return;
+
+}
+
+Call c = callQueue.front();
+
+callQueue.pop();
+
+cout << "Answered call of Customer " << c.customerID << "\n";
+
+}
+
+void viewQueue() {
+
+if (callQueue.empty()) {
+
+cout << "Queue is empty.\n";
+
+return;
+
+}
+
+queue<Call> temp = callQueue;
+
+cout << "Calls in queue:\n";
+
+while (!temp.empty()) {
+
+Call c = temp.front();
+
+cout << "Customer " << c.customerID << ", Time " << c.callTime << " mins\n";
+
+temp.pop();
+
+}
+
+}
+
+void isQueueEmpty() {
+
+if (callQueue.empty())
+
+cout << "Queue is empty.\n";
+
+else
+
+cout << "Queue is not empty.\n";
+
+}
+
+int main() {
+
+addCall(101, 5);
+
+addCall(102, 3);
+
+viewQueue();
+
+answerCall();
+
+isQueueEmpty();
+
+return 0;
+
+}
