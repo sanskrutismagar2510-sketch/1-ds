@@ -1,0 +1,121 @@
+#include <iostream>
+
+using namespace std;
+
+struct Node {
+
+ int data;
+
+ Node *left, *right;
+
+};
+
+Node* createNode(int val) {
+
+ Node* n = new Node();
+
+ n->data = val;
+
+ n->left = n->right = NULL;
+
+ return n;
+
+}
+
+Node* insert(Node* root, int val) {
+
+ if (root == NULL) return createNode(val);
+
+ if (val < root->data) root->left = insert(root->left, val);
+
+ else if (val > root->data) root->right = insert(root->right, val);
+
+ return root;
+
+}
+
+bool search(Node* root, int key) {
+
+ if (root == NULL) return false;
+
+ if (root->data == key) return true;
+
+ return (key < root->data) ? search(root->left, key) : search(root->right, key);
+
+}
+
+Node* findMin(Node* root) {
+
+ while (root && root->left) root = root->left;
+
+ return root;
+
+}
+
+Node* del(Node* root, int key) {
+
+ if (root == NULL) return root;
+
+ if (key < root->data) root->left = del(root->left, key);
+
+ else if (key > root->data) root->right = del(root->right, key);
+
+ else {
+
+ if (!root->left) return root->right;
+
+ else if (!root->right) return root->left;
+
+ Node* temp = findMin(root->right);
+
+ root->data = temp->data;
+
+ root->right = del(root->right, temp->data);
+
+ }
+
+ return root;
+
+}
+
+void inorder(Node* root) {
+
+ if (root) {
+
+ inorder(root->left);
+
+ cout << root->data << " ";
+
+ inorder(root->right);
+
+ }
+
+}
+
+int main() {
+
+ Node* root = NULL;
+
+ int ch, val;
+
+ do {
+
+ cout << "\n1.Insert 2.Delete 3.Search 4.Display 5.Exit\nChoice: ";
+
+ cin >> ch;
+
+ switch (ch) {
+
+ case 1: cout << "Enter value: "; cin >> val; root = insert(root, val); break;
+
+ case 2: cout << "Enter value: "; cin >> val; root = del(root, val); break;
+
+ case 3: cout << "Enter value: "; cin >> val;
+
+ cout << (search(root, val) ? "Found\n" : "Not Found\n"); break;case 4: inorder(root); cout << endl; break;
+
+ }
+
+ } while (ch != 5);
+
+}
