@@ -1,0 +1,91 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+struct Student {
+    int roll;
+    string name;
+    float marks;
+    Student* next;
+};
+Student* head = NULL;
+
+void addStudent(int roll, string name, float marks) {
+    Student* newNode = new Student{roll, name, marks, NULL};
+    if (!head) head = newNode;
+    else {
+        Student* temp = head;
+        while (temp->next) temp = temp->next;
+        temp->next = newNode;
+    }
+}
+
+void display() {
+    if (!head) { cout << "No records!\n"; return; }
+    cout << "\nRoll\tName\tMarks\n";
+    for (Student* t = head; t; t = t->next)
+        cout << t->roll << "\t" << t->name << "\t" << t->marks << endl;
+}
+
+void searchStudent(int roll) {
+    Student* t = head;
+    while (t) {
+        if (t->roll == roll) {
+            cout << "Found: " << t->roll << " " << t->name << " " << t->marks << endl;
+            return;
+        }
+        t = t->next;
+    }
+    cout << "Record not found!\n";
+}
+
+void updateStudent(int roll) {
+    Student* t = head;
+    while (t) {
+        if (t->roll == roll) {
+            cout << "Enter new name and marks: ";
+            cin >> t->name >> t->marks;
+            cout << "Record updated.\n";
+            return;
+        }
+        t = t->next;
+    }
+    cout << "Record not found!\n";
+}
+
+void deleteStudent(int roll) {
+    if (!head) { cout << "List empty!\n"; return; }
+    if (head->roll == roll) { Student* del = head; head = head->next; delete del; cout << "Deleted.\n"; return; }
+    Student* t = head;
+    while (t->next && t->next->roll != roll) t = t->next;
+    if (t->next) {
+        Student* del = t->next; t->next = del->next; delete del; cout << "Deleted.\n";
+    } else cout << "Record not found!\n";
+}
+
+void sortList(bool byMarks = false) {
+    if (!head) return;
+    for (Student* i = head; i && i->next; i = i->next)
+        for (Student* j = head; j && j->next; j = j->next) {
+            bool cond = byMarks ? (j->marks > j->next->marks) : (j->roll > j->next->roll);
+            if (cond) swap(j->roll, j->next->roll), swap(j->name, j->next->name), swap(j->marks, j->next->marks);
+        }
+    cout << "List sorted.\n";
+}
+
+int main() {
+    int ch, roll; string name; float marks;
+    do {
+        cout << "\n1.Add 2.Display 3.Search 4.Update 5.Delete 6.Sort(by Roll) 7.Sort(by Marks) 0.Exit\nChoice: ";
+        cin >> ch;
+        switch (ch) {
+            case 1: cout << "Enter Roll, Name, Marks: "; cin >> roll >> name >> marks; addStudent(roll, name, marks); break;
+            case 2: display(); break;
+            case 3: cout << "Enter roll to search: "; cin >> roll; searchStudent(roll); break;
+            case 4: cout << "Enter roll to update: "; cin >> roll; updateStudent(roll); break;
+            case 5: cout << "Enter roll to delete: "; cin >> roll; deleteStudent(roll); break;
+            case 6: sortList(false); break;
+            case 7: sortList(true); break;
+        }
+    } while (ch != 0);
+}
