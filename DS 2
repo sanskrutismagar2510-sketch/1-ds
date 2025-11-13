@@ -1,0 +1,81 @@
+# List of employee salaries
+
+salaries = [45000.50, 38000.75, 52000.25, 61000.00, 47000.80, 33000.60, 59000.90, 72000.30]
+
+# -----------------------------
+
+# Selection Sort
+
+# -----------------------------
+
+def selection_sort(salary_list):
+
+ n = len(salary_list)
+
+ for i in range(n):
+
+ min_index = i
+
+ for j in range(i + 1, n):
+
+ if salary_list[j] < salary_list[min_index]:
+
+ min_index = j
+
+ # Swap the found minimum element with the first element
+
+ salary_list[i], salary_list[min_index] = salary_list[min_index], salary_list[i]
+
+# -----------------------------
+
+# Bubble Sort
+
+# -----------------------------
+
+def bubble_sort(salary_list):
+
+ n = len(salary_list)
+
+ for i in range(n - 1):
+
+ for j in range(n - i - 1):
+
+ if salary_list[j] > salary_list[j + 1]:
+
+ salary_list[j], salary_list[j + 1] = salary_list[j + 1], salary_list[j]
+
+# Copy the list (so we can sort it twice)
+
+salaries_selection = salaries.copy()
+
+salaries_bubble = salaries.copy()
+
+# Sort using selection sort
+
+selection_sort(salaries_selection)
+
+print("Salaries sorted using Selection Sort:")
+
+print(salaries_selection)
+
+# Sort using bubble sort
+
+bubble_sort(salaries_bubble)
+
+print("\nSalaries sorted using Bubble Sort:")
+
+print(salaries_bubble)
+
+# -----------------------------
+
+# Display top five highest salaries
+
+# -----------------------------
+
+print("\nTop 5 highest salaries in the company:")
+
+top_5 = sorted(salaries, reverse=True)[:5]
+
+for salary in top_5:
+
+ print(salary)
