@@ -1,0 +1,166 @@
+#include <iostream>
+
+#include <list>
+
+using namespace std;
+
+class HashTable {
+
+ static const int size = 10;
+
+ list<int> table[size];
+
+ int HashFunction(int key) {
+
+ return key % size;
+
+ }
+
+public:
+
+ void insert(int key) {
+
+ int index = HashFunction(key);
+
+ table[index].push_back(key);
+
+ cout << "Key " << key << " is inserted at index " << index << endl;
+
+ }
+
+ void remove(int key) {
+
+ int index = HashFunction(key);
+
+ table[index].remove(key);
+
+ cout << "Key " << key << " removed (if present)" << endl;
+
+ }
+
+ void search(int key) {
+
+ int index = HashFunction(key);
+
+ bool found = false;
+
+ for (int val : table[index]) {
+
+ if (val == key) {
+
+ cout << "Key found at index: " << index << endl;
+
+ found = true;
+
+ break;
+
+ }
+
+ }
+
+ if (!found) {
+
+ cout << key << " not found" << endl;
+
+ }
+
+ }
+
+ void display() {
+
+ cout << "\nHash Table:\n";
+
+ for (int i = 0; i < size; i++) {
+
+ cout << i << ": ";
+
+ for (int key : table[i]) {
+
+ cout << key << " -> ";
+
+ }
+
+ cout << "NULL" << endl;
+
+ }
+
+ }
+
+};
+
+int main() {
+
+ HashTable ht;
+
+ ht.insert(20);
+
+ ht.insert(56);
+
+ ht.insert(10);
+
+ ht.display();
+
+ ht.remove(56);
+
+ ht.display();
+
+ ht.search(54);
+
+ return 0;
+
+}
+
+Sample Output:
+Key 20 is inserted at index 0
+
+Key 56 is inserted at index 6
+
+Key 10 is inserted at index 0
+
+Hash Table:
+
+0: 20 -> 10 -> NULL
+
+1: NULL
+
+2: NULL
+
+3: NULL
+
+4: NULL
+
+5: NULL
+
+6: 56 -> NULL
+
+7: NULL
+
+8: NULL
+
+9: NULL
+
+Key 56 removed (if present)
+
+Hash Table:
+
+0: 20 -> 10 -> NULL
+
+1: NULL
+
+2: NULL
+
+3: NULL
+
+4: NULL
+
+5: NULL
+
+6: NULL
+
+7: NULL
+
+8: NULL
+
+9: NULL
+
+54 not found
